@@ -57,7 +57,7 @@ const auroMenuConfig = {
   input: 'src/es5.js',
   output: {
     format: 'iife',
-    file: 'dist/auro-menu__bundled.es5.js'
+    file: 'dist/auro-menu.js'
   },
   plugins: getSharedPlugins(true)
 };

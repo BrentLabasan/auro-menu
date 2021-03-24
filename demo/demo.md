@@ -20,7 +20,11 @@ The `auro-menu` element should be used in situations where users may:
 |||√|√|
 
 <div class="exampleWrapper">
-  <auro-menu cssClass="testClass">Hello World!</auro-menu>
+  <auro-menu cssClass="testClass">
+    <li>option 1</li>
+    <li>option 2</li>
+    <li>option 3</li>
+  </auro-menu>
 </div>
 
 <auro-accordion lowProfile justifyRight>

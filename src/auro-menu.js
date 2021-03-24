@@ -25,7 +25,7 @@ class AuroMenu extends LitElement {
   // function to define props used within the scope of thie component
   static get properties() {
     return {
-      cssClass:   { type: String }
+      cssClass: { type: String }
     };
   }
 
@@ -38,9 +38,13 @@ class AuroMenu extends LitElement {
   // function that renders the HTML and CSS into  the scope of the component
   render() {
     return html`
-      <div class=${this.cssClass}>
-        <slot></slot>
-      </div>
+            <div class=${this.cssClass}>
+            
+              <!-- <auro-icon category="terminal" name="plane-diag-fill"></auro-icon> -->
+              <ul>
+                <slot></slot>
+              </ul>
+            </div>
     `;
   }
 }
