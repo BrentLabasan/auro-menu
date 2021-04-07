@@ -1,4 +1,4 @@
-import { fixture, html, expect, triggerFocusFor } from '@open-wc/testing';
+import { fixture, html, expect, triggerFocusFor, oneEvent } from '@open-wc/testing';
 import '../src/auro-menu.js';
 
 describe('auro-menu', () => {
@@ -27,12 +27,14 @@ describe('auro-menu', () => {
     const el = await generateDefaultFixture();
 
     let options = el.shadowRoot.querySelector('slot[name=listOfOptions]').assignedNodes();
+    let listener = oneEvent(options[1], 'keydown');
     options[1].dispatchEvent(new KeyboardEvent('keydown', {
       bubbles: true,
       composed: true,
       'key': 'Enter'
     }
     ));
+    await listener;
   
     expect(currentlySelectedValue).to.equal('the value for option 2');
   });

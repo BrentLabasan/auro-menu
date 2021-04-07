@@ -29,28 +29,35 @@ class AuroMenu extends LitElement {
     // was selected
     for (let i = 0; i < options.length; i++) {
       options[i].setAttribute('tabindex', '0')
-      options[i].addEventListener('keydown', (evt) => handleKeyDown(evt, i));
-      options[i].addEventListener('click', () => handleClick(i));
+      options[i].addEventListener('keydown', (evt) => handleKeyDown(evt));
+      options[i].addEventListener('click', (evt) => handleClick(evt));
     }
 
-    function dispatchEventOptionSelected() {
-      options[i].dispatchEvent(new CustomEvent('optionSelected', {
+    function dispatchEventOptionSelected(el) {
+      el.dispatchEvent(new CustomEvent('optionSelected', {
         bubbles: true,
         cancelable: false,
         composed: true,
         detail: {
-          value: options[i].getAttribute('data-value')
+          value: el.getAttribute('data-value')
         }
       }));
+      options.forEach((option) => {
+        if (el.getAttribute('data-value') === option.getAttribute('data-value')) {
+          option.setAttribute('selected', true);
+        } else {
+          option.removeAttribute('selected');
+        }
+      })
     }
 
-    const handleKeyDown = (evt, i) => {
+    const handleKeyDown = (evt) => {
       if (evt.key.toLowerCase() === 'enter' || evt.key.toLowerCase() === ' ') {
-        dispatchEventOptionSelected();
+        dispatchEventOptionSelected(evt.target);
       }
     }
-    const handleClick = (i) => {
-      dispatchEventOptionSelected();
+    const handleClick = (evt) => {
+      dispatchEventOptionSelected(evt.target);
     }
   }
 
