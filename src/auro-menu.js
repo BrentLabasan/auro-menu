@@ -3,6 +3,8 @@
 
 // ---------------------------------------------------------------------
 
+import "@alaskaairux/auro-icon";
+
 import { LitElement, html, css } from "lit-element";
 
 // Import touch detection lib
@@ -15,42 +17,81 @@ import styleCss from "./style-css.js";
  */
 
 class AuroMenu extends LitElement {
+  constructor() {
+    super();
+
+    this.options = null;
+  }
+
+  static get properties() {
+    return {
+      options: { type: Array }
+    };
+  }
+
   static get styles() {
     return css`
       ${styleCss}
     `;
   }
 
-
   firstUpdated() {
-    let options = this.shadowRoot.querySelector('slot[name=listOfOptions]').assignedNodes();
+    const options = this.shadowRoot.querySelector('slot[name=listOfOptions]').assignedNodes();
 
-    // 1) make each option tabbable 2) add click and keypress event listeners, to dispatchEvent that a particular option
-    // was selected
-    for (let i = 0; i < options.length; i++) {
-      options[i].setAttribute('tabindex', '0')
-      options[i].addEventListener('keydown', (evt) => handleKeyDown(evt, i));
-      options[i].addEventListener('click', () => handleClick(i));
-    }
-
-    function dispatchEventOptionSelected() {
-      options[i].dispatchEvent(new CustomEvent('optionSelected', {
+    const dispatchEventOptionSelected = (el) => {
+      el.dispatchEvent(new CustomEvent('optionSelected', {
         bubbles: true,
         cancelable: false,
         composed: true,
         detail: {
-          value: options[i].getAttribute('data-value')
+          index: el.getAttribute('index'),
+          value: el.getAttribute('value'),
+          displayText: el.innerText,
         }
       }));
-    }
 
-    const handleKeyDown = (evt, i) => {
-      if (evt.key.toLowerCase() === 'enter' || evt.key.toLowerCase() === ' ') {
-        dispatchEventOptionSelected();
+      options.forEach((option) => {
+        if (el.getAttribute('index') === option.getAttribute('index')) {
+          option.setAttribute('selected', true);
+        } else {
+          option.removeAttribute('selected');
+        }
+      });
+
+      const elIndex = parseInt(el.getAttribute('index'), 10);
+
+      // TODO: refactor
+      for (let i = 0; i < options.length; i += 1) {
+        if (elIndex === i) {
+          options[i].setAttribute('selected', '');
+          options[i].querySelector('span').setAttribute('style', 'visibility: visible; margin-right: 8px;');
+        } else {
+          options[i].removeAttribute('selected');
+          options[i].querySelector('span').setAttribute('style', 'visibility: hidden; margin-right: 8px;');
+        }
       }
     }
-    const handleClick = (i) => {
-      dispatchEventOptionSelected();
+
+    const handleKeyDown = (evt) => {
+      if (evt.key.toLowerCase() === 'enter' || evt.key.toLowerCase() === ' ') {
+        dispatchEventOptionSelected(evt.target);
+      }
+    };
+
+    for (let i = 0; i < options.length; i += 1) {
+      options[i].setAttribute('index', i);
+      // each option is tabbable
+      options[i].setAttribute('tabindex', '0');
+      options[i].addEventListener('keydown', (evt) => handleKeyDown(evt));
+      options[i].addEventListener('click', (evt) => dispatchEventOptionSelected(evt.target));
+
+      // insert checkmark icon into each option's li
+      const span = document.createElement('span');
+
+      span.innerHTML = '<auro-icon category="interface" name="check-sm" emphasis></auro-icon>';
+      span.style.visibility = 'hidden';
+      span.style.marginRight = '8px';
+      options[i].insertBefore(span, options[i].firstChild);
     }
   }
 

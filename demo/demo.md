@@ -13,27 +13,18 @@ An auto-complete version of `auro-menu` can be found at `auro-auto-complete`.
 
   <button id="tabbableButtonAbove" tabindex="0">tabbable button above</button>
 
-  <br/>
-  <br/>
-
   <auro-menu>
-    <li slot="listOfOptions" data-value="the value for option 1">option 1</li>
-    <li slot="listOfOptions" data-value="the value for option 2">option 2</li>
-    <li slot="listOfOptions" data-value="the value for option 3">option 3</li>
-    <li slot="listOfOptions" data-value="lorem ipsum lorem ipsum">lorem ipsum lorem ipsum</li>
-    <li slot="listOfOptions" data-value="departures">Departures</li>
-    <li slot="listOfOptions" data-value="arrivals">Arrivals</li>
+    <li slot="listOfOptions" data-value="the value for option 1">Stops</li>
+    <li slot="listOfOptions" data-value="the value for option 2">Price</li>
+    <li slot="listOfOptions" data-value="the value for option 3">Duration</li>
+    <li slot="listOfOptions" data-value="the value for option 4">Departure</li>
+    <li slot="listOfOptions" data-value="the value for option 5">Arrival</li>
+    <li slot="listOfOptions" data-value="the value for option 6">Prefer Alaska</li>
   </auro-menu>
-
-  <br/>
-  <br/>
 
   <button id="tabbableButtonBelow" tabindex="0">tabbable button below</button>
 
 </div>
-
-<auro-accordion lowProfile justifyRight>
-  <span slot="trigger">See code</span>
 
   ```html
   <auro-menu>
